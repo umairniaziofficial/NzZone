@@ -2,8 +2,8 @@ import React from 'react'
 
 const RouteLayout = () => {
   return (
-    <div>RouteLayout</div>
+    <div>Root Layout</div>
   )
 }
 
-export default RouteLayout
+export default RouteLayout;
