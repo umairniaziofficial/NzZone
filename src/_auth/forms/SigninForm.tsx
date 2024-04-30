@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 const SigninForm = () => {
   return (
     <div>
-    <Button>Click Me</Button>
+    <Button>Sign in</Button>
     </div>
   )
 }
