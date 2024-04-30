@@ -5,6 +5,8 @@ import SignUpForm from "./_auth/forms/SignUpForm";
 import { Home } from "./_root/pages";
 import AuthLayout from "./_auth/AuthLayout";
 import RootLayout from "./_root/RootLayout";
+import { Toaster } from "@/components/ui/toaster"
+
 
 const App = () => {
   return (
@@ -18,6 +20,7 @@ const App = () => {
         <Route path="/sign-up" element={<SignUpForm />} />
       </Route>
     </Routes>
+    <Toaster/>
   </main>
   );
 };
