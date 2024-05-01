@@ -1,3 +1,4 @@
+
 export type INavLink = {
     imgURL: string;
     route: string;
@@ -46,3 +47,13 @@ export type INavLink = {
     username: string;
     password: string;
   };
+
+  export type IContextType = {
+    user: IUser,
+    isPending: boolean,
+    isAuthenticated: boolean,
+    setUser: React.Dispatch<React.SetStateAction<IUser>>,
+    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>,
+    checkAuthUser: () => Promise<boolean>
+  }
+  
