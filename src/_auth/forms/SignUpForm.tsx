@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Form,
   FormControl,
@@ -19,12 +19,16 @@ import {
   useCreatUserAccount,
   useSigninAccount,
 } from "@/lib/react-querry/querriesAndMutations";
+import { useUserContext } from "@/context/AuthContext";
 
 const SignUpForm = () => {
   const { toast } = useToast();
-
-  const {mutateAsync: createNewUserAccount,isPending:isCreatingUser} = useCreatUserAccount();
-  const {mutateAsync: singInAccount,isPending: isSigning} = useSigninAccount();
+  const navigate = useNavigate();
+  const { checkAuthUser, isPending: isUserLoading } = useUserContext();
+  const { mutateAsync: createNewUserAccount, isPending: isCreatingUser } =
+    useCreatUserAccount();
+  const { mutateAsync: singInAccount, isPending: isSigningInUser } =
+    useSigninAccount();
 
   const form = useForm<z.infer<typeof SignUpValidation>>({
     resolver: zodResolver(SignUpValidation),
@@ -35,6 +39,7 @@ const SignUpForm = () => {
       password: "",
     },
   });
+
   async function onSubmit(values: z.infer<typeof SignUpValidation>) {
     const newUser = await createNewUserAccount(values);
     if (!newUser) {
@@ -49,6 +54,13 @@ const SignUpForm = () => {
 
     if (!session) {
       return toast({ title: "Sign in Failed Please Try again later." });
+    }
+    const isLoaggedIn = await checkAuthUser();
+    if (isLoaggedIn) {
+      form.reset();
+      navigate("/");
+    } else {
+      return toast({ title: "Sign up Failed Please Try again later." });
     }
     console.log(newUser);
   }
@@ -111,7 +123,7 @@ const SignUpForm = () => {
                 <FormLabel>Email: </FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Enter your password"
+                    placeholder="Enter your email"
                     type="email"
                     className="shad-input"
                     {...field}
@@ -140,7 +152,7 @@ const SignUpForm = () => {
             )}
           />
           <Button type="submit" className="shad-button_primary">
-            {isCreatingUser ? (
+            {isCreatingUser || isSigningInUser || isUserLoading ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...
               </div>
