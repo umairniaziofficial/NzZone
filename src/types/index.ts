@@ -51,8 +51,8 @@ export type INavLink = {
   export type IContextType = {
     user: IUser,
     isPending: boolean,
-    isAuthenticated: boolean,
     setUser: React.Dispatch<React.SetStateAction<IUser>>,
+    isAuthenticated: boolean,
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>,
     checkAuthUser: () => Promise<boolean>
   }

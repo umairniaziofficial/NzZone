@@ -23,11 +23,9 @@ import {
 const SignUpForm = () => {
   const { toast } = useToast();
 
-  const { mutateAsync: createNewUserAccount, isPending: isCreatingUser } =
-    useCreatUserAccount();
+  const {mutateAsync: createNewUserAccount,isPending:isCreatingUser} = useCreatUserAccount();
+  const {mutateAsync: singInAccount,isPending: isSigning} = useSigninAccount();
 
-  const { mutateAsync: singInAccount, isPending: isSigginIn } =
-    useSigninAccount();
   const form = useForm<z.infer<typeof SignUpValidation>>({
     resolver: zodResolver(SignUpValidation),
     defaultValues: {
